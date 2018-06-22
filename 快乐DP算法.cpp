@@ -1,20 +1,22 @@
-#include <iostream>
-#include <cstdio>
-#include <cstring>
-#include <algorithm>
-#include <queue>
-using namespace std;
 
+#include <iostream>
+using namespace std;
 
 int main()
 {
-    int ans[2000] = {0},v[55],w[55],n;
-    scanf("%d",&n);
-    for(int i = 0;i<n;scanf("%d",&v[i++]));
-    for(int i = 0;i<n;scanf("%d",&w[i++]));
-    for(int i = 0;i<n;i++)
-        for(int j = 1999;j>=w[i];j--)
-            ans[j] = max(ans[j],ans[j-w[i]]+v[i]);
-    printf("%d\n",ans[1999]+1);
+    int n;
+    cin>>n;
+    long gethappy[55],losspow[55],ans[55][2001]={0};
+    for(int i=1;i<=n;i++) cin>>gethappy[i];
+    for(int i=1;i<=n;i++) cin>>losspow[i];
+    for(int i=1;i<=n;i++) {
+        for (int j = 1; j <= 1999; j++) {
+            if(j>=losspow[i])
+                ans[i][j]=max(ans[i-1][j],ans[i-1][j-losspow[i]]+gethappy[i]);
+            else
+                ans[i][j]=ans[i-1][j];
+        }
+    }
+    cout<<ans[n][1999]+1<<endl;
     return 0;
 }
